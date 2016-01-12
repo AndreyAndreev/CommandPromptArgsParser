@@ -31,6 +31,19 @@ namespace Tests
         }
 
         [TestMethod]
+        public void GetValuesByNameWithDifferentRegisterTest()
+        {
+            var parser = new ArgsParser();
+            string[] args = { "arg1", "aRg2:value2", "ARG3 = value3" };
+
+            parser.Parse(args);
+
+            Assert.AreEqual("arg1", parser.GetValue("arg1"));
+            Assert.AreEqual("value2", parser.GetValue("arg2"));
+            Assert.AreEqual("value3", parser.GetValue("arg3"));
+        }
+
+        [TestMethod]
         public void GetValuesByIndexTest()
         {
             var parser = new ArgsParser();

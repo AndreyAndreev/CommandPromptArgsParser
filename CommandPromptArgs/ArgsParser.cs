@@ -37,14 +37,17 @@ namespace CommandPromptArgs
 
                     string[] split = x.Split(configuration.KeyValueSeparators, StringSplitOptions.RemoveEmptyEntries);
 
+                    if (split.Any())
+                    {
+                        key = split.First().Trim().ToLowerInvariant();
+                    }
+
                     if (split.Count() == 1)
                     {
-                        key = split.First().Trim();
                         value = key;
                     }
                     else if (split.Count() > 1)
                     {
-                        key = split.First().Trim();
                         value = split.ElementAt(1).Trim();
                     }
 
