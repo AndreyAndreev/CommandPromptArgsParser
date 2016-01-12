@@ -6,7 +6,7 @@ namespace CommandPromptArgs
 {
     public class ArgsParser
     {
-        private ParserConfiguration configuration;
+        private readonly ParserConfiguration configuration;
         private Dictionary<string, string> argsDict;
         private List<Arg> args;
         private string[] originalArgs;
@@ -21,10 +21,7 @@ namespace CommandPromptArgs
             this.configuration = configuration;
         }
 
-        public int Count
-        {
-            get { return argsDict.Count; }
-        }
+        public int Count => argsDict.Count;
 
         public void Parse(string[] cmdArguments)
         {
@@ -58,12 +55,35 @@ namespace CommandPromptArgs
 
         public string GetValue(string argName)
         {
-            return argsDict[argName];
+            return argsDict[argName.ToLowerInvariant()];
         }
 
         public string GetValue(int index)
         {
             return argsDict.ElementAt(index).Value;
+        }
+
+        public bool GetBoolValue(string argName)
+        {
+            bool value;
+
+            bool.TryParse(GetValue(argName), out value);
+
+            return value;
+        }
+
+        public int GetIntValue(string argName)
+        {
+            int value;
+
+            int.TryParse(GetValue(argName), out value);
+
+            return value;
+        }
+
+        public bool IsSpecified(string argName)
+        {
+            return argsDict.ContainsKey(argName.ToLowerInvariant());
         }
     }
 }

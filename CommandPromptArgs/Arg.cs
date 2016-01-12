@@ -4,18 +4,29 @@ namespace CommandPromptArgs
 {
     public class Arg
     {
-        public string Name { get; } 
-        public string Value { get; }
+        public string Name { get; }
+        public string Value { get; private set; }
+
         public Type Type { get; }
 
-        public void Parse(string arg)
+        public virtual void ParseValue(string arg)
         {
-            
+            Value = arg;
         }
     }
 
     public class Arg<T> : Arg
     {
-        public new T Value { get; }
+        protected T value;
+
+        public new virtual T Value => value;
+    }
+
+    public class BoolArg : Arg<bool>
+    {
+        public override void ParseValue(string arg)
+        {
+            bool.TryParse(arg, out value);
+        }
     }
 }

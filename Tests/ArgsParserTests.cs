@@ -38,7 +38,7 @@ namespace Tests
 
             parser.Parse(args);
 
-            Assert.AreEqual("arg1", parser.GetValue("arg1"));
+            Assert.AreEqual("arg1", parser.GetValue("ARG1"));
             Assert.AreEqual("value2", parser.GetValue("arg2"));
             Assert.AreEqual("value3", parser.GetValue("arg3"));
         }
@@ -54,6 +54,41 @@ namespace Tests
             Assert.AreEqual("arg1", parser.GetValue(0));
             Assert.AreEqual("value2", parser.GetValue(1));
             Assert.AreEqual("value3", parser.GetValue(2));
+        }
+
+        [TestMethod]
+        public void GetBoolValueTest()
+        {
+            var parser = new ArgsParser();
+            string[] args = {"arg1:true", "arg2=false"};
+
+            parser.Parse(args);
+
+            Assert.IsTrue(parser.GetBoolValue("arg1"));
+            Assert.IsFalse(parser.GetBoolValue("arg2"));
+        }
+
+        [TestMethod]
+        public void GetIntValueTest()
+        {
+            var parser = new ArgsParser();
+            string[] args = { "arg1:1" };
+
+            parser.Parse(args);
+
+            Assert.AreEqual(1, parser.GetIntValue("arg1"));
+        }
+
+        [TestMethod]
+        public void IsSpecifiedTest()
+        {
+            var parser = new ArgsParser();
+            string[] args = {"arg1"};
+
+            parser.Parse(args);
+
+            Assert.IsTrue(parser.IsSpecified("arg1"));
+            Assert.IsFalse(parser.IsSpecified("arg2"));
         }
     }
 }
